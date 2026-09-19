@@ -102,6 +102,7 @@ export default function VideoPlayer({
   const [ytError, setYtError] = useState(false);
   const [loadError, setLoadError] = useState(false);
   const hideTimer = useRef(null);
+  const suppressClickRef = useRef(false);
 
   const localVideo = movie.video || null;
   const trailerId = getTrailerId(movie);
@@ -290,8 +291,21 @@ export default function VideoPlayer({
   };
 
   const handleVideoClick = () => {
+    if (suppressClickRef.current) {
+      suppressClickRef.current = false;
+      return;
+    }
     resetHideTimer();
     togglePlay();
+  };
+
+  // On touch devices a tap/swipe should first reveal the controls
+  // instead of immediately toggling play/pause.
+  const handlePointerDown = (e) => {
+    if (e.pointerType === 'touch') {
+      suppressClickRef.current = true;
+      resetHideTimer();
+    }
   };
 
 const toggleFullscreen = async () => {
@@ -300,6 +314,7 @@ const toggleFullscreen = async () => {
     } else {
       await document.exitFullscreen?.();
     }
+    resetHideTimer();
   };
 
   const seek = (e) => {
@@ -388,6 +403,7 @@ const toggleFullscreen = async () => {
         className="relative w-full h-full flex items-center justify-center bg-[var(--ps-bg-track)]"
         onMouseMove={resetHideTimer}
         onClick={handleVideoClick}
+        onPointerDown={handlePointerDown}
       >
         {isLocal ? (
           <video

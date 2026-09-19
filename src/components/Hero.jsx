@@ -41,6 +41,24 @@ export default function Hero({ onMovieSelect, onPlay }) {
     goTo((current - 1 + featured.length) % featured.length);
   }, [current, featured.length, goTo]);
 
+  const touchStart = useRef({ x: 0, y: 0 });
+
+  const handleTouchStart = (e) => {
+    const t = e.touches?.[0];
+    if (t) touchStart.current = { x: t.clientX, y: t.clientY };
+  };
+
+  const handleTouchEnd = (e) => {
+    const t = e.changedTouches?.[0];
+    if (!t) return;
+    const dx = t.clientX - touchStart.current.x;
+    const dy = t.clientY - touchStart.current.y;
+    if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)) {
+      if (dx < 0) goNext();
+      else goPrev();
+    }
+  };
+
   // Auto-advance for slides without a playable video
   useEffect(() => {
     if (useVideo) return;
@@ -82,7 +100,11 @@ export default function Hero({ onMovieSelect, onPlay }) {
   };
 
   return (
-    <section className="relative w-full h-[85vh] min-h-[560px] overflow-hidden bg-[var(--ps-bg)]">
+    <section
+      className="relative w-full h-[85vh] min-h-[560px] overflow-hidden bg-[var(--ps-bg)]"
+      onTouchStart={handleTouchStart}
+      onTouchEnd={handleTouchEnd}
+    >
       {/* Backdrop images — stacked, fade between them */}
       {featured.map((m, i) => (
         <div
@@ -173,14 +195,14 @@ export default function Hero({ onMovieSelect, onPlay }) {
       {/* Carousel controls */}
       <button
         onClick={goPrev}
-        className="absolute left-4 top-1/2 -translate-y-1/2 z-20 p-2 rounded-full bg-black/50 border border-white/40 text-white hover:text-white hover:border-[#6c63ff]/70 hover:bg-black/60 transition-all duration-200 backdrop-blur-sm hidden md:flex"
+        className="absolute left-4 top-1/2 -translate-y-1/2 z-20 p-2 rounded-full bg-black/50 border border-white/40 text-white hover:text-white hover:border-[#6c63ff]/70 hover:bg-black/60 transition-all duration-200 backdrop-blur-sm flex"
         aria-label="Previous"
       >
         <ChevronLeft className="w-5 h-5" />
       </button>
       <button
         onClick={goNext}
-        className="absolute right-4 top-1/2 -translate-y-1/2 z-20 p-2 rounded-full bg-black/50 border border-white/40 text-white hover:text-white hover:border-[#6c63ff]/70 hover:bg-black/60 transition-all duration-200 backdrop-blur-sm hidden md:flex"
+        className="absolute right-4 top-1/2 -translate-y-1/2 z-20 p-2 rounded-full bg-black/50 border border-white/40 text-white hover:text-white hover:border-[#6c63ff]/70 hover:bg-black/60 transition-all duration-200 backdrop-blur-sm flex"
         aria-label="Next"
       >
         <ChevronRight className="w-5 h-5" />
