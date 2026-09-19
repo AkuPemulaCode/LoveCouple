@@ -1,5 +1,5 @@
 ﻿import { useState, useEffect, useCallback, useRef } from 'react';
-import { Play, Info, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Play, Info, ChevronLeft, ChevronRight, Volume2, VolumeX } from 'lucide-react';
 import { getTrending } from '../data/movies';
 import VideoFrame from './VideoFrame';
 
@@ -8,7 +8,8 @@ const AUTOPLAY_INTERVAL = 7000;
 export default function Hero({ onMovieSelect, onPlay }) {
   const featured = getTrending().slice(0, 5);
   const [current, setCurrent] = useState(0);
-  const muted = true;
+  const [muted, setMuted] = useState(false);
+  const toggleMute = () => setMuted((m) => !m);
   const [animating, setAnimating] = useState(false);
   const [progress, setProgress] = useState(0);
   const [videoError, setVideoError] = useState(false);
@@ -185,8 +186,17 @@ export default function Hero({ onMovieSelect, onPlay }) {
         <ChevronRight className="w-5 h-5" />
       </button>
 
-      {/* Slide indicators with progress */}
-      <div className="absolute bottom-6 right-8 md:right-16 z-20 flex items-center gap-2">
+      {/* Mute toggle + slide indicators with progress */}
+      <div className="absolute bottom-6 right-8 md:right-16 z-20 flex items-center gap-3">
+        <button
+          onClick={toggleMute}
+          className="p-2 rounded-full bg-black/50 border border-white/40 text-white hover:text-white hover:border-[#6c63ff]/70 hover:bg-black/60 transition-all duration-200 backdrop-blur-sm"
+          aria-label={muted ? 'Unmute' : 'Mute'}
+        >
+          {muted ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
+        </button>
+
+        <div className="flex items-center gap-2">
         {featured.map((_, i) => (
           <button
             key={i}
@@ -207,6 +217,7 @@ export default function Hero({ onMovieSelect, onPlay }) {
             )}
           </button>
         ))}
+        </div>
       </div>
 
       {/* Bottom fade into content */}
