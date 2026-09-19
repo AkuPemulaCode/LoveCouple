@@ -99,7 +99,7 @@ export default function Hero({ onMovieSelect, onPlay }) {
               ref={videoRef}
               src={m.video}
               poster={m.backdrop}
-              className="w-full h-full object-cover"
+              className="w-full h-full object-contain"
               playsInline
               onTimeUpdate={handleVideoProgress}
               onEnded={goNext}
