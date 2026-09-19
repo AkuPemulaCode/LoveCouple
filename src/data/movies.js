@@ -128,14 +128,7 @@ export const getNewArrivals = () => movies.filter((m) => m.new);
 export const getMovieById = (id) => movies.find((m) => m.id === Number(id));
 
 export const rows = [
-  { id: 'trending', label: 'Trending Now', movies: getTrending() },
-  { id: 'top10', label: 'Top 10 on PixelSync Today', movies: getTop10() },
-  { id: 'new', label: 'New Arrivals', movies: getNewArrivals() },
-  { id: 'cyberpunk', label: 'Cyberpunk Universe', movies: getMoviesByCategory(CATEGORIES.CYBERPUNK) },
-  { id: 'scifi', label: 'Sci-Fi Worlds', movies: getMoviesByCategory(CATEGORIES.SCI_FI) },
-  { id: 'action', label: 'High-Octane Action', movies: getMoviesByCategory(CATEGORIES.ACTION) },
-  { id: 'anime', label: 'Anime', movies: getMoviesByCategory(CATEGORIES.ANIME) },
-  { id: 'thriller', label: 'Suspense & Thriller', movies: getMoviesByCategory(CATEGORIES.THRILLER) },
-  { id: 'horror', label: 'Horror', movies: getMoviesByCategory(CATEGORIES.HORROR) },
-  { id: 'documentary', label: 'Documentaries', movies: getMoviesByCategory(CATEGORIES.DOCUMENTARY) },
+  { id: 'jj', label: 'Video JJ', movies: movies.filter((m) => m.video.includes('/videos/jj')) },
+  { id: 'clip', label: 'Video Clip', movies: movies.filter((m) => m.video.includes('/videos/video_copy') || m.video.includes('/videos/void-protocol')) },
+  { id: 'romantis', label: 'Video Romantis', movies: movies.filter((m) => m.category.includes(CATEGORIES.ROMANCE) || m.genre.includes('Romance')) },
 ];
