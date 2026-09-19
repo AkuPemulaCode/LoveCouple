@@ -1,0 +1,99 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ===== Theme tokens (dark) ===== */
+:root {
+  --ps-bg: #0a0a0f;
+  --ps-bg-track: #0f0f1a;
+  --ps-bg-card: #13131f;
+  --ps-bg-mid: #1a1a2e;
+  --ps-border: #252540;
+  --ps-fg: #e8e8f0;
+  --ps-fg-mid: #8888aa;
+  --ps-fg-dim: #4a4a6a;
+  --ps-scroll-track: #0f0f1a;
+  --ps-scroll-thumb: #6c63ff;
+  --ps-bg-80: rgba(10, 10, 15, 0.8);
+  --ps-bg-95: rgba(10, 10, 15, 0.95);
+  --ps-bg-60: rgba(10, 10, 15, 0.6);
+  --ps-bg-50: rgba(10, 10, 15, 0.5);
+  --ps-bg-30: rgba(10, 10, 15, 0.3);
+  --ps-border-60: rgba(37, 37, 64, 0.6);
+  --ps-bg-mid-80: rgba(26, 26, 46, 0.8);
+  --ps-bg-mid-70: rgba(26, 26, 46, 0.7);
+  --ps-bg-card-60: rgba(19, 19, 31, 0.6);
+  --ps-bg-card-40: rgba(19, 19, 31, 0.4);
+  color-scheme: dark;
+}
+
+/* ===== Base reset ===== */
+*, *::before, *::after { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background-color: var(--ps-bg);
+  color: var(--ps-fg);
+  font-family: 'Inter', 'Segoe UI', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+/* ===== Scrollbars ===== */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--ps-scroll-track); }
+::-webkit-scrollbar-thumb { background: var(--ps-scroll-thumb); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #4f46e5; }
+
+.scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+.scrollbar-hide::-webkit-scrollbar { display: none; }
+
+/* ===== PixelSync utility classes ===== */
+.ps-neon-text {
+  text-shadow: 0 0 10px #6c63ff, 0 0 20px #6c63ff, 0 0 40px #6c63ff;
+}
+.ps-accent-text {
+  text-shadow: 0 0 10px #00d4ff, 0 0 20px #00d4ff;
+}
+
+.ps-grid-bg {
+  background-image:
+    linear-gradient(rgba(108,99,255,0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(108,99,255,0.05) 1px, transparent 1px);
+  background-size: 50px 50px;
+}
+
+/* ===== Animations ===== */
+@keyframes ps-pulse-glow {
+  0%, 100% { box-shadow: 0 0 20px rgba(108,99,255,0.25); }
+  50%       { box-shadow: 0 0 40px rgba(108,99,255,0.5), 0 0 60px rgba(108,99,255,0.25); }
+}
+@keyframes ps-slide-up {
+  from { transform: translateY(20px); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+@keyframes ps-flicker {
+  0%, 100% { opacity: 1; }
+  92% { opacity: 1; }  93% { opacity: 0.8; }
+  94% { opacity: 1; }  96% { opacity: 0.9; }  97% { opacity: 1; }
+}
+
+.ps-pulse-glow { animation: ps-pulse-glow 3s ease-in-out infinite; }
+.ps-slide-up   { animation: ps-slide-up 0.4s ease forwards; }
+.ps-flicker    { animation: ps-flicker 8s ease-in-out infinite; }
+
+/* ===== Line clamp ===== */
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
