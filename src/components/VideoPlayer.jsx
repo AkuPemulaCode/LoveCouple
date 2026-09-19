@@ -82,6 +82,7 @@ export default function VideoPlayer({
   defaultMuted = true,
 }) {
   const containerRef = useRef(null);
+  const rootRef = useRef(null);
   const playerRef = useRef(null);
   const videoRef = useRef(null);
   const endedFiredRef = useRef(false);
@@ -310,7 +311,7 @@ export default function VideoPlayer({
 
 const toggleFullscreen = async () => {
     if (!document.fullscreenElement) {
-      await containerRef.current?.requestFullscreen?.();
+      await rootRef.current?.requestFullscreen?.();
     } else {
       await document.exitFullscreen?.();
     }
@@ -362,7 +363,7 @@ const toggleFullscreen = async () => {
   };
 
   return (
-    <div className="fixed inset-0 z-[200] bg-[var(--ps-bg-track)] flex flex-col">
+    <div ref={rootRef} className="fixed inset-0 z-[200] bg-[var(--ps-bg-track)] flex flex-col">
       {/* Top bar */}
       <div
         className={`absolute top-0 left-0 right-0 z-10 flex items-center gap-4 px-4 md:px-8 py-4 bg-gradient-to-b from-[var(--ps-bg)] to-transparent transition-opacity duration-300 ${
